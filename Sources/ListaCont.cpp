@@ -112,7 +112,7 @@ void ListaCont::insereInicio2(int val){
 }
 
 //Remove
-void ListaCont::removeK(int k, int val){
+void ListaCont::removeK(int k){
     if(k>=0 && k<n){
         for(int i= k ; i<n-1;i++){
             vet[i]=vet[i+1];
@@ -134,7 +134,7 @@ void ListaCont::removeFinal(int val){
 }
 void ListaCont::removeInicio(int val){
     if(n>0){
-        removeK(0,val);
+        removeK(0);
     }
     else{
         cout<<"Lista vazia"<<endl;
@@ -196,4 +196,96 @@ ListaCont* ListaCont::concatena(ListaCont *l2){
     nova->n = n + l2->n;
 
     return nova;
+}
+ListaCont* ListaCont::copiar(int valor){
+    ListaCont * nova = new ListaCont(max);
+    
+    int i;
+    for (i = 0; i<n; i++){
+        if(vet[i]== valor)
+            break;
+    }
+    
+    while (i<n){
+        nova->insereFinal(vet[i]);
+        removeK(i);
+    }
+
+    return nova;
+
+}
+void ListaCont::inserirVet(int tam, int v[]){
+    max = max+tam;
+    int * l2 = new int(max);
+    for(int i = 0; i<tam; i++){
+        l2[i] = v[i];
+    }
+    for(int i = 0 ; i<n; i++){
+        l2[i+tam] = vet[i];
+    }
+
+    n= n + tam;
+    delete [] vet;
+    vet = l2;
+}
+void ListaCont::intercala(ListaCont *la, ListaCont *lb){
+    int novoTam = la->n + lb->n;
+    int *temp = new int [novoTam];
+
+    int contadorA=0;
+    int contadorB=0;
+    
+    if(la->n == lb->n){
+        for(int i = 0; i<novoTam;i++){
+            if(i%2 ==0){
+                temp[i]=la->get(contadorA);
+                contadorA++;
+            }
+            else{
+                temp[i]=lb->get(contadorB);
+                contadorB++;
+            }
+        }
+    }
+    else if (la->n > lb->n){
+        int i = 0;
+        for(; i<(lb->n)*2;i++){
+            if(i%2 ==0){
+                temp[i]=la->get(contadorA);
+                contadorA++;
+            }
+            else{
+                temp[i]=lb->get(contadorB);
+                contadorB++;
+            }
+        }
+        for(; i<novoTam;i++){
+            temp[i]=la->get(contadorA);
+            contadorA++;
+        }
+    }
+    else{
+        int i = 0;
+        for(; i<(la->n)*2;i++){
+            if(i%2 ==0){
+                temp[i]=la->get(contadorA);
+                contadorA++;
+            }
+            else{
+                temp[i]=lb->get(contadorB);
+                contadorB++;
+            }
+        }
+        for(; i<novoTam;i++){
+            temp[i]=lb->get(contadorB);
+            contadorB++;
+        }
+    }
+
+    delete [] vet;
+    vet = temp;
+    n = novoTam;
+    la->n = 0;
+    lb->n = 0;
+
 }

@@ -23,7 +23,7 @@ public:
 
     //Remove
     void removeInicio(int val);
-    void removeK(int k, int val);
+    void removeK(int k);
     void removeFinal(int val);
     void removeInicio2();
 
@@ -36,7 +36,9 @@ public:
     //Outros
     ListaCont* copia();
     ListaCont* concatena(ListaCont *l2);
-
+    ListaCont* copiar(int valor);
+    void inserirVet(int tam, int v[]);
+    void intercala(ListaCont *la,ListaCont *lb);
 
 
 
